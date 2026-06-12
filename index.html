@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>企業授信覆審 AI Agent</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">CR</div>
+        <div>
+          <h1>授信覆審 AI Agent</h1>
+          <p>信用風險決策輔助 PoC</p>
+        </div>
+      </div>
+
+      <section class="panel">
+        <h2>資料來源</h2>
+        <label class="file-drop" for="financialFile">
+          <span>上傳 CSV / TXT</span>
+          <small>可由 Excel 另存 CSV；TXT 可放財報說明文字</small>
+        </label>
+        <input id="financialFile" type="file" accept=".csv,.txt" />
+        <button id="loadSampleBtn" class="secondary" type="button">載入範例資料</button>
+      </section>
+
+      <section class="panel">
+        <h2>人工覆審重點</h2>
+        <textarea id="manualReview" rows="8"></textarea>
+      </section>
+
+      <section class="panel compact">
+        <h2>欄位格式</h2>
+        <p>CSV 欄位支援 year、revenue、gross_profit、operating_income、net_income、total_assets、total_liabilities、current_assets、current_liabilities、cash、equity、interest_expense、operating_cash_flow。</p>
+      </section>
+    </aside>
+
+    <main class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Bank Credit Review</p>
+          <h2>銀行風險報告自動生成器</h2>
+        </div>
+        <button id="runBtn" type="button">生成覆審報告</button>
+      </header>
+
+      <section class="metrics">
+        <article>
+          <span>AI 風險評分</span>
+          <strong id="scoreMetric">--</strong>
+        </article>
+        <article>
+          <span>風險等級</span>
+          <strong id="gradeMetric">--</strong>
+        </article>
+        <article>
+          <span>異常項目</span>
+          <strong id="alertMetric">--</strong>
+        </article>
+        <article>
+          <span>最新年度</span>
+          <strong id="yearMetric">--</strong>
+        </article>
+      </section>
+
+      <section class="summary-band">
+        <h3>覆審意見摘要</h3>
+        <p id="summaryText">請載入資料後生成覆審報告。</p>
+      </section>
+
+      <nav class="tabs" aria-label="報告分頁">
+        <button class="tab active" data-tab="ratios" type="button">財務比率</button>
+        <button class="tab" data-tab="alerts" type="button">異常偵測</button>
+        <button class="tab" data-tab="evidence" type="button">RAG 證據</button>
+        <button class="tab" data-tab="compare" type="button">AI vs 人工</button>
+        <button class="tab" data-tab="raw" type="button">原始資料</button>
+      </nav>
+
+      <section id="ratios" class="tab-page active">
+        <div class="chart-wrap">
+          <canvas id="trendChart" width="900" height="260"></canvas>
+        </div>
+        <div class="table-wrap">
+          <table id="ratioTable"></table>
+        </div>
+      </section>
+
+      <section id="alerts" class="tab-page">
+        <div id="alertList" class="alert-list"></div>
+      </section>
+
+      <section id="evidence" class="tab-page">
+        <div id="evidenceList" class="evidence-list"></div>
+      </section>
+
+      <section id="compare" class="tab-page">
+        <div class="table-wrap">
+          <table id="compareTable"></table>
+        </div>
+      </section>
+
+      <section id="raw" class="tab-page">
+        <div class="table-wrap">
+          <table id="rawTable"></table>
+        </div>
+        <textarea id="contextText" rows="8"></textarea>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
